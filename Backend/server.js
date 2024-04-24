@@ -4,12 +4,12 @@ const app = express();
 const PORT = 80
 app.use(cors())
 
-
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhNmQ4ZDc2MWU3YjU0MDViODdiOGY2NGM5ZDc4MDY2NiIsImlhdCI6MTcxMzMzNzUxMSwiZXhwIjoyMDI4Njk3NTExfQ.ZlWZnPHJl8OC1gprzCbWASG5E0ORMH523rKObldaUPU'
 
+api_status()
 async function api_status() {
     try {
-        const response = await fetch('http://10.100.0.130:8123/api/', {
+        const response = await fetch('http://10.100.0.13:8123/api/', {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + token
@@ -24,7 +24,7 @@ async function api_status() {
 
 async function get_entity(entity_id) {
     try {
-        const response = await fetch('http://10.100.0.130:8123/api/states/' + entity_id, {
+        const response = await fetch('http://10.100.0.13:8123/api/states/' + entity_id, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + token
@@ -39,7 +39,7 @@ async function get_entity(entity_id) {
 
 // api_status()
 
-// get_entity('binary_sensor.shellymotion2_842E14FFCE72_motion')
+// get_entity('binary_sensor.motion01_motion')
 
 app.get('/sensor/:reqEntityId', async function (req, res){
     var data = await get_entity(req.params.reqEntityId)
