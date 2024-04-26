@@ -1,10 +1,10 @@
 <script>
 import { ref, onMounted } from 'vue';
-const state_message = ref("State kommer her")
-const change_message = ref("Change kommer her")
-
 export default {
   setup() {
+    const state_message = ref("State kommer her")
+    const change_message = ref("Change kommer her")
+
     async function responseEntity() {
       try {
         const response = await fetch('http://10.0.0.155/sensor/binary_sensor.motion01_motion');
@@ -14,10 +14,19 @@ export default {
         const full_changed = data.svar.last_changed;
         const date_new = new Date(full_changed)
         var date_format = date_new.getDate().toString().padStart(2, "0")+"/"+(date_new.getMonth()+1).toString().padStart(2, "0")+"/"+date_new.getFullYear()+", kl"+date_new.getHours().toString().padStart(2, "0")+":"+date_new.getMinutes().toString().padStart(2, "0")
-        console.log(full_changed+ ", " +date_format)
-        change_message.value = date_format
+        change_message.value = date_format;
+        
+        if (state_message.value == "off") {
+          document.getElementById("div-motion").style.backgroundColor = "rgb(37, 195, 50)"
+        } else if (state_message.value == "on") {
+          document.getElementById("div-motion").style.backgroundColor = "rgb(205, 0, 0)"
+        } else {
+          document.getElementById("div-motion").style.backgroundColor = "rgb(255, 234, 0)"
 
-        console.log(data.svar)
+        }
+
+        // console.log(full_changed+ ", " +date_format)
+        // console.log(data.svar)
       } catch (error) {
           console.error('There was an error fetching the posts ÆÆÆÆ:', error);
       };
@@ -37,19 +46,20 @@ export default {
   <p>{{ change_message }}</p>
   <h1>-----------------------------------</h1>
   <br>
-  <div class="div-box">
-    <div v-if="state_message == 'on'">
-      <p>There is a motion inside guys!</p>
+  <div id="div-motion">
+    <img src="/public/motion.png" alt="Motion Guy" id="motion-guy">
+    <div v-if="state_message == 'off'">
+      <p>No motion, we chillin' guys!</p>
+      <p>Time when last exited:</p>
+      <p>{{ change_message }}</p>
+    </div>
+    <div v-else-if="state_message == 'on'">
+      <p>Motion detected</p>
       <p>Time when last entered:</p>
       <p>{{ change_message }}</p>
     </div>
-    <div v-else-if="state_message == 'off'">
-      <p>No motion, we chillin' guys!</p>
-      <p>Time when last left:</p>
-      <p>{{ change_message }}</p>
-    </div>
     <div v-else>
-      <p>We've lost'em guys :[</p>
+      <p>Motion detector is not connected</p>
     </div>
   </div>
 </template>
