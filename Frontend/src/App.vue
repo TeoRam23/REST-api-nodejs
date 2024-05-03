@@ -1,5 +1,6 @@
 <script>
 import { ref, onMounted } from 'vue';
+import MotionDetector from './components/MotionDetector.vue';
 export default {
   setup() {
     const state_message = ref("State kommer her")
@@ -46,7 +47,7 @@ export default {
   <p>{{ change_message }}</p>
   <h1>-----------------------------------</h1>
   <br>
-  <div id="div-motion">
+  <!-- <div id="div-motion">
     <img src="/public/motion.png" alt="Motion Guy" id="motion-guy">
     <div v-if="state_message == 'off'">
       <p>No motion, we chillin' guys!</p>
@@ -61,5 +62,8 @@ export default {
     <div v-else>
       <p>Motion detector is not connected</p>
     </div>
-  </div>
+  </div> -->
+  <motion-detector />
+  <motion-detector />
+  <motion-detector />
 </template>
